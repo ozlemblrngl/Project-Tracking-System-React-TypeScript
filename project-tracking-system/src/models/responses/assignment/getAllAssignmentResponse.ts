@@ -1,6 +1,7 @@
 export interface GetAllAssignmentResponse{
     id: string
     projectId: string,
+    projectName: string,
     title: string,
     description: string,
     createdDate: Date,

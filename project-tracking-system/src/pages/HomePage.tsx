@@ -19,10 +19,12 @@ interface Project {
     createdDate: string;
     status: string;
   }
+  const handleLogOut = () => {
+    localStorage.clear();
+  };
 
 function HomePage() {
    
-
    
    
     const [activeTab, setActiveTab] = useState<string>("Project");
@@ -50,6 +52,15 @@ function HomePage() {
         <div className="row">
           <div className="col-12 col-lg-3 mb-8 mb-lg-0">
             <Sidebar activeTab ={activeTab} setActiveTab={setActiveTab}/>
+            <span className=" nav-link dropdown-item p-2 ">
+                    <Link
+                      onClick={handleLogOut}
+                      className=" nav-link dropdown-item"
+                      to="/"
+                    >
+                      Oturumu Kapat
+                    </Link>
+                  </span>
           </div>
           <div className="col-12 col-lg-9">
           {renderContent()}

@@ -4,13 +4,6 @@ import { GetAllProjectResponse } from '../models/responses/project/getAllProject
 import projectService from '../services/projectService';
 
 
-interface Project {
-  name: string;
-  startDate: string;
-  endDate: string;
-  status: string;
-}
-
 interface ProjectListProps {
   projects: GetAllProjectResponse[];
 }

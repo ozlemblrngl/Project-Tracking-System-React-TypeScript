@@ -6,6 +6,9 @@ import HomePage from './pages/HomePage';
 import { Route, Routes } from 'react-router-dom';
 import ProjectList from './components/ProjectList';
 import { useState } from 'react';
+import ProtectedRoute from './components/ProtectedRoute';
+import AssignmentList from './components/AssignmentList';
+
 
 interface Project {
   name: string;
@@ -15,7 +18,7 @@ interface Project {
 }
 
 function App() {
-  const [projects, setProjects] = useState<Project[]>([]);
+ 
   return (
     <>
  <Routes>
@@ -39,20 +42,29 @@ function App() {
 {<Route
   path="/home-page"
   element={
-    // <ProtectedRoute>
+    <ProtectedRoute>
       <HomePage />
-    // </ProtectedRoute>
+     </ProtectedRoute>
 }
 /> }
 
-<Route
+{<Route
   path="/projects"
   element={
-    <div>
-       <ProjectList />
-    </div>
-  }
-/>
+    <ProtectedRoute>
+      <ProjectList />
+     </ProtectedRoute>
+}
+/> }
+
+{<Route
+  path="/assignments"
+  element={
+    <ProtectedRoute>
+      <AssignmentList />
+     </ProtectedRoute>
+}
+/> }
 
 
 </Routes>

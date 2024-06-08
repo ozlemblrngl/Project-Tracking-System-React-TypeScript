@@ -4,14 +4,19 @@ import { Link } from "react-router-dom";
 import { ErrorMessage, Form, Formik, } from "formik";
 import * as Yup from "yup";
 import FormikInput from "../components/FormikInput";
+import authService from '../services/authService';
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
-interface LoginForm {
+
+
+interface Login {
   email: string;
   password: string;
 }
 
 const Login: React.FC = () => {
-    const initialValues: LoginForm = {
+    const initialValues: Login = {
         email: "",
         password: "",
     };
@@ -21,8 +26,38 @@ const Login: React.FC = () => {
         password: Yup.string()
         .required("Doldurulması zorunlu alan*"),
     });
+    const navigate = useNavigate();
 
-    const handleLogin = () => {};
+
+    const handleLogin = async (
+        values: Login,
+        {
+          setSubmitting,
+          setErrors,
+        }: {
+          setSubmitting: (isSubmitting: boolean) => void;
+          setErrors: (errors: Record<string, string>) => void;
+        }
+      ) => {
+        try{
+            const token = await authService.login(values);
+    
+            localStorage.setItem("user", JSON.stringify(token));
+
+            const decodedToken: any = token ? jwtDecode(token) : null;
+            const userId = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+        
+            localStorage.setItem("userId", JSON.stringify(userId).replaceAll('"',''));
+
+            navigate("home-page");
+        }catch (error) {
+
+            console.error("Kimlik doğrulama hatası:", (error as Error).message);
+            setErrors({ password: "Kimlik doğrulama hatası" }); 
+          } finally {
+            setSubmitting(false);
+          }
+      }
 
     return (
         <div className="full-height">

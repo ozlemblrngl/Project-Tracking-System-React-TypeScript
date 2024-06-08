@@ -3,16 +3,8 @@ import { GetAllAssignmentResponse } from '../models/responses/assignment/getAllA
 import assignmentService from '../services/assignmentService';
 
 
-
-interface Assignment {
-    name: string;
-    description: string;
-    createdDate: string;
-    status: string;
-  }
-  
   interface AssignmentListProps {
-    assignments: Assignment[];
+    assignments: GetAllAssignmentResponse[];
   }
   
   const AssignmentList: React.FC= () => {
@@ -67,7 +59,7 @@ interface Assignment {
           {assignments.map((assignment, index) => (
             <tr key={index} >
               <th scope="row">{index+1}</th>
-              {/* <th>{project.name}</th> */}
+              <th>{assignment.projectName}</th>
               <th>{assignment.title}</th>
               <th>{assignment.description}</th>
               <th>{assignment.createdDate.toDateString()}</th>
