@@ -8,6 +8,7 @@ import ProjectList from './components/ProjectList';
 import { useState } from 'react';
 import ProtectedRoute from './components/ProtectedRoute';
 import AssignmentList from './components/AssignmentList';
+import EditProject from"./pages/EditProject";
 
 
 interface Project {
@@ -66,6 +67,14 @@ function App() {
 }
 /> }
 
+{<Route
+  path="/edit-project"
+  element={
+    <ProtectedRoute>
+      <EditProject />
+     </ProtectedRoute>
+}
+/> }
 
 </Routes>
 
