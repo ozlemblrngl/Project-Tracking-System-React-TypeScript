@@ -1,4 +1,3 @@
-import React from 'react'
 import ProjectList from '../components/ProjectList'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
@@ -24,12 +23,8 @@ interface Project {
   };
 
 function HomePage() {
-   
-   
-   
+     
     const [activeTab, setActiveTab] = useState<string>("Project");
-
-   
 
   const handleActiveTab = (text: string) => {
     setActiveTab(text);
@@ -52,15 +47,7 @@ function HomePage() {
         <div className="row">
           <div className="col-12 col-lg-3 mb-8 mb-lg-0">
             <Sidebar activeTab ={activeTab} setActiveTab={setActiveTab}/>
-            <span className=" nav-link dropdown-item p-2 ">
-                    <Link
-                      onClick={handleLogOut}
-                      className=" nav-link dropdown-item"
-                      to="/"
-                    >
-                      Oturumu Kapat
-                    </Link>
-                  </span>
+            
           </div>
           <div className="col-12 col-lg-9">
           {renderContent()}

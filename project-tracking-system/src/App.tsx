@@ -4,11 +4,12 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import HomePage from './pages/HomePage';
 import { Route, Routes } from 'react-router-dom';
-import ProjectList from './components/ProjectList';
+import ProjectList from "./components/ProjectList";
 import { useState } from 'react';
 import ProtectedRoute from './components/ProtectedRoute';
 import AssignmentList from './components/AssignmentList';
 import EditProject from"./pages/EditProject";
+import Navbar from './components/Navbar';
 
 
 interface Project {
@@ -44,7 +45,7 @@ function App() {
   path="/home-page"
   element={
     <ProtectedRoute>
-      <HomePage />
+      <Navbar/><HomePage />
      </ProtectedRoute>
 }
 /> }
@@ -53,7 +54,7 @@ function App() {
   path="/projects"
   element={
     <ProtectedRoute>
-      <ProjectList />
+      <Navbar/><ProjectList />
      </ProtectedRoute>
 }
 /> }
@@ -62,16 +63,16 @@ function App() {
   path="/assignments"
   element={
     <ProtectedRoute>
-      <AssignmentList />
+      <Navbar/><AssignmentList />
      </ProtectedRoute>
 }
 /> }
 
 {<Route
-  path="/edit-project"
+  path="/edit-project/:id"
   element={
     <ProtectedRoute>
-      <EditProject />
+      <EditProject/>
      </ProtectedRoute>
 }
 /> }

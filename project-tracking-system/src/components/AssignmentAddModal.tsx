@@ -22,10 +22,11 @@ const AssignmentAddModal:  React.FC<assignmentAddModalProps> = ({fetchAssignment
       fetchProjects();
     }, []);
     const fetchProjects = async () => {
-  
-      const response = await projectService.getAll(
+      const userId =parseInt(localStorage.getItem("userId")!);
+      const response = await projectService.getListByUserId(
         0,
         10,
+        userId
       );
       setProjects(response.data.items.map((project: GetAllProjectResponse) => ({
         ...project,
@@ -47,8 +48,10 @@ const AssignmentAddModal:  React.FC<assignmentAddModalProps> = ({fetchAssignment
 
     const addAssignmentRequest = async (values: AddAssignmentRequest) => {
       try {
+        console.log(values);
         const response = await assignmentService.add(values);
         fetchAssignments();
+        document.getElementById("assigmentAddModal")?.click();
         
       } catch (error) {
         console.error("Assignment add error:", error);
@@ -59,27 +62,26 @@ const AssignmentAddModal:  React.FC<assignmentAddModalProps> = ({fetchAssignment
       <div className="centered-form">
         <Formik
           initialValues={{
-            projectName:"",
+            projectId:"",
             title: '',
             description: '',
             createdDate: '',
             status:"",
           }}
           validationSchema={Yup.object({
-            projectName: Yup.string()
+            projectId: Yup.string()
               .required("Doldurulması zorunlu alan"),
-            title: Yup.date()
+            title: Yup.string()
               .required("Doldurulması zorunlu alan"),
             createdDate: Yup.date()
             .required("Doldurulması zorunlu alan"),
-            status: Yup.date()
+            status: Yup.number()
             .required("Doldurulması zorunlu alan"),
           })}
           onSubmit={async (values, { setSubmitting }) => {
             const transformedValues: AddAssignmentRequest = {
               ...values,
             createdDate: new Date(values.createdDate),
-            projectId: values.projectName
                 };
                 try {
               await addAssignmentRequest(transformedValues);
@@ -115,16 +117,16 @@ const AssignmentAddModal:  React.FC<assignmentAddModalProps> = ({fetchAssignment
                     </div>
                     <div className="modal-body">
                       <div className="form-group">
-                        <label htmlFor="projectName">Proje adı</label>
-                        <Field as="select" name="projectName" className="form-select">
-                          <option value="projectName" label="Proje seçin" />
+                        <label htmlFor="projectId">Proje adı</label>
+                        <Field as="select" name="projectId" className="form-select">
+                          <option value="projectId" label="Proje seçin" />
                           {projects.map((project) => (
                             <option key={project.id} value={project.id}>
                               {project.name}
                             </option>
                           ))}
                         </Field>
-                        <ErrorMessage name="projectName" component="div" className="text-danger" />
+                        <ErrorMessage name="projectId" component="div" className="text-danger" />
                       </div>
                       <div className="form-group ">
                         <label htmlFor="title">Başlık</label>
@@ -144,12 +146,10 @@ const AssignmentAddModal:  React.FC<assignmentAddModalProps> = ({fetchAssignment
                       <div className="form-group ">
                         <label htmlFor="status">Durumu</label>
                         <Field as="select" name="status" className="form-select">
-                          <option value="status" label="Durumu Seçin" />
-                          {assignments.map((assignment) => (
-                            <option key={assignment.id} value={assignment.status}>
-                              {assignment.status}
-                            </option>
-                          ))}
+                          <option value="0" label="Yeni" />
+                          <option value="1" label="Devam Ediyor" />
+                          <option value="2" label="Tamamlandı" />
+                          
                         </Field>
                         <ErrorMessage name="description" component="div" className="text-danger" />
                       </div>
@@ -161,10 +161,10 @@ const AssignmentAddModal:  React.FC<assignmentAddModalProps> = ({fetchAssignment
                         className="btn rounded-pill shadow closeButton"
                         data-bs-dismiss="modal"
                       >
-                        Close
+                        Kapat
                       </button>
-                      <button type="submit" className="btn rounded-pill modalButton" disabled={isSubmitting}>
-                        Save changes
+                      <button type="submit" className="btn rounded-pill modalButton" disabled={isSubmitting} >
+                        Kaydet
                       </button>
                     </div>
                   </div>

@@ -2,10 +2,35 @@ import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import '../styles/register.css';
+import { useNavigate } from 'react-router-dom';
+import authService from '../services/authService'; // authService'i doğru yerden içe aktardığınızdan emin olun
 
 const Register: React.FC = () => {
+  const navigate = useNavigate();
+
+  interface RegisterValues {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }
+
+  const handleRegister = async (values: RegisterValues) => {
+    try {
+      console.log(values);
+      const response = await authService.register(values);
+      console.log(response);
+      if (response.status === 200) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Kayıt Başarısız:", (error as Error).message);
+    }
+  };
+
   return (
-    <div className="full-height">
+    <div className="full-height color-back">
       <div className="centered-form">
         <Formik
           initialValues={{
@@ -16,10 +41,8 @@ const Register: React.FC = () => {
             confirmPassword: '',
           }}
           validationSchema={Yup.object({
-            firstName: Yup.string()
-              .required("Doldurulması zorunlu alan"),
-            lastName: Yup.string()
-              .required("Doldurulması zorunlu alan"),
+            firstName: Yup.string().required("Doldurulması zorunlu alan"),
+            lastName: Yup.string().required("Doldurulması zorunlu alan"),
             email: Yup.string()
               .email('Geçersiz mail adresi')
               .required("Doldurulması zorunlu alan"),
@@ -31,11 +54,12 @@ const Register: React.FC = () => {
               .required("Doldurulması zorunlu alan"),
           })}
           onSubmit={(values, { setSubmitting }) => {
-            console.log(values);
+            handleRegister(values);
             setSubmitting(false);
           }}
         >
           <Form>
+            <h3 className='mb-5 btn-dark'>Kayıt Ol</h3>
             <div className="form-group form-width">
               <label htmlFor="firstName">İsim</label>
               <Field name="firstName" type="text" className="form-control" />
@@ -66,7 +90,7 @@ const Register: React.FC = () => {
               <ErrorMessage name="confirmPassword" component="div" className="text-danger" />
             </div>
 
-            <button type="submit" className="btn btn-primary">Kayıt Ol</button>
+            <button type="submit" className="btn btn-Color mt-4">Kayıt Ol</button>
           </Form>
         </Formik>
       </div>

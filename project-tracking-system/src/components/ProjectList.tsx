@@ -21,7 +21,9 @@ const ProjectList: React.FC = () => {
     fetchProjects();
   }, []);
   const fetchProjects = async () => {
-    const response = await projectService.getAll(0, 10);
+    const userId =parseInt(localStorage.getItem("userId")!);
+    console.log(userId)
+    const response = await projectService.getListByUserId(0, 10, userId);
     setProjects(
       response.data.items.map((project: GetAllProjectResponse) => ({
         ...project,
@@ -40,7 +42,7 @@ const ProjectList: React.FC = () => {
       <ProjectAddModal fetchProjects={fetchProjects}/>
       <h2>Proje Listesi</h2>
       <br />
-      <div className="d-flex align-items-center mb-3 ">
+      <div className="d-flex align-items-center mb-3">
         <div>
           <button
             type="button"
@@ -77,14 +79,14 @@ const ProjectList: React.FC = () => {
         <tbody className="">
           {projects.map((project, index) => (
             <tr key={index}>
-              <td scope="row">{index + 1}</td>
+              <th scope="row">{index + 1}</th>
               <td>{project.name}</td>
-              <td> {project.startDate.toDateString()}</td>
-              <td>{project.endDate.toDateString()}</td>
+              <td> {project.startDate.toISOString().split('T')[0]}</td>
+              <td>{project.endDate.toISOString().split('T')[0]}</td>
               <div className="row">
                 <div className="col-6">
                 
-                    <Link to="/edit-project"><svg
+                    <Link to={`/edit-project/${project.id}`}><span  title="detay"><svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
               height="20"
@@ -98,7 +100,7 @@ const ProjectList: React.FC = () => {
                 fillRule="evenodd"
                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
               />
-            </svg></Link>
+            </svg></span></Link>
                  
                 </div>
                 <div className="col-md-6">
@@ -145,7 +147,7 @@ const ProjectList: React.FC = () => {
               </h6>
               <button
                 type="button"
-                className="btn-close"
+                className="btn-close btnClose rounded-pill shadow"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
@@ -156,7 +158,7 @@ const ProjectList: React.FC = () => {
             <div className=" modal-footer modal-footer-feature">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btnNo rounded-pill shadow"
                 data-bs-dismiss="modal"
               >
                 Hayır
@@ -164,7 +166,7 @@ const ProjectList: React.FC = () => {
 
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn rounded-pill shadow btnYes"
                 data-bs-dismiss="modal"
                 onClick={() => handleDelete(selectForDeleteId)}
               >

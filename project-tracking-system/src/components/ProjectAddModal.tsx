@@ -104,7 +104,7 @@ const ProjectAddModal :  React.FC<projectAddModalProps> = ({fetchProjects}) => {
                       >
                         Kapat
                       </button>
-                      <button type="submit" className="btn rounded-pill modalButton" disabled={isSubmitting}  data-bs-dismiss="modal">
+                      <button type="submit" className="btn rounded-pill modalButton" disabled={isSubmitting}  >
                         Kaydet
                       </button>
                     </div>

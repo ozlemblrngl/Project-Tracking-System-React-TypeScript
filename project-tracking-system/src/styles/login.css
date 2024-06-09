@@ -13,7 +13,15 @@
     width: 600px;
   }
   .btn-color{
-    background-color: rgb(177, 205, 184);
+    background-color: rgb(92, 122, 99);
     color: azure;
+  }
+
+  .btn-dark{
+    background-color: rgba(22, 119, 114, 0.679);
+  }
+
+  .color-back{
+    background-color: rgb(220, 237, 250);
   }
   

@@ -60,7 +60,7 @@ const Login: React.FC = () => {
       }
 
     return (
-        <div className="full-height">
+        <div className="full-height color-back">
             <div className="centered-form">
                 <Formik
                     validationSchema={validationSchema}
@@ -69,6 +69,7 @@ const Login: React.FC = () => {
                 >
                     {({ isSubmitting }) => (
                         <Form className="row g-3 form-width">
+                            <h3 className='btn-dark'>Giriş Yap</h3>
                             <div className="col-12 mt-3">
                             <label htmlFor="email">E-Mail: </label>
                                 <FormikInput placeholder="E-Posta" name="email" />
@@ -90,26 +91,16 @@ const Login: React.FC = () => {
                             >
                                 Giriş Yap
                             </button>
-                            <div className="col-12">
-                                <p className="mt-2 d-block">
-                                    <Link
-                                        className="nav-link link-secondary center-footer"
-                                        to="/forgotPassword"
-                                    >
-                                        Şifremi Unuttum
-                                    </Link>
-                                </p>
-                            </div>
                             <label className="center-footer">
-                                <small>
+                                <span>
                                     Henüz hesabın yok mu?
                                     <Link
-                                        className="text-decoration-none text-muted fw-bold "
+                                        className="text-decoration-none text-muted fw-bold  "
                                         to="/register"
                                     >
                                         {" "} Kayıt Ol
                                     </Link>
-                                </small>
+                                </span>
                             </label>
                         </Form>
                     )}

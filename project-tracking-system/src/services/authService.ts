@@ -27,7 +27,7 @@ class AuthService {
         localStorage.removeItem('user');
     }
     register(model: AddUserRequest) {
-      return axiosInstance.post("/Auth/RegisterStudent", model);
+      return axiosInstance.post("/Auth/Register", model);
     }
     
   async isEmailRegistered(model:AddUserRequest) {
